@@ -292,16 +292,16 @@ def generate_control_file(version):
     control_file_path = "../res/DEBIAN/control"
     system2('/bin/rm -rf %s' % control_file_path)
 
-    content = """Package: rustdesk
+    content = """Package: ayudame
 Section: net
 Priority: optional
 Version: %s
 Architecture: %s
-Maintainer: rustdesk <info@rustdesk.com>
-Homepage: https://rustdesk.com
+Maintainer: JMV Sistemas <info@jmvsistemas.com>
+Homepage: https://jmvsistemas.com
 Depends: libgtk-3-0, libxcb-randr0, libxdo3 | libxdo4, libxfixes3, libxcb-shape0, libxcb-xfixes0, libasound2, libsystemd0, curl, libva2, libva-drm2, libva-x11-2, libgstreamer-plugins-base1.0-0, libpam0g, gstreamer1.0-pipewire%s
 Recommends: libayatana-appindicator3-1
-Description: A remote control software.
+Description: Ayudame Remote Desktop
 
 """ % (version, get_deb_arch(), get_deb_extra_depends())
     file = open(control_file_path, "w")
@@ -356,11 +356,11 @@ def build_flutter_deb(version, features):
     generate_control_file(version)
     system2('cp -a ../res/DEBIAN/* tmpdeb/DEBIAN/')
     md5_file_folder("tmpdeb/")
-    system2('dpkg-deb -b tmpdeb rustdesk.deb;')
+    system2('dpkg-deb -b tmpdeb ayudame.deb;')
 
     system2('/bin/rm -rf tmpdeb/')
     system2('/bin/rm -rf ../res/DEBIAN/control')
-    os.rename('rustdesk.deb', '../rustdesk-%s.deb' % version)
+    os.rename('ayudame.deb', '../ayudame-%s.deb' % version)
     os.chdir("..")
 
 
@@ -393,11 +393,11 @@ def build_deb_from_folder(version, binary_folder):
     generate_control_file(version)
     system2('cp -a ../res/DEBIAN/* tmpdeb/DEBIAN/')
     md5_file_folder("tmpdeb/")
-    system2('dpkg-deb -b tmpdeb rustdesk.deb;')
+    system2('dpkg-deb -b tmpdeb ayudame.deb;')
 
     system2('/bin/rm -rf tmpdeb/')
     system2('/bin/rm -rf ../res/DEBIAN/control')
-    os.rename('rustdesk.deb', '../rustdesk-%s.deb' % version)
+    os.rename('ayudame.deb', '../ayudame-%s.deb' % version)
     os.chdir("..")
 
 
@@ -457,9 +457,9 @@ def build_flutter_windows(version, features, skip_portable_pack):
                   './rustdesk_portable.exe')
     print(
         f'output location: {os.path.abspath(os.curdir)}/rustdesk_portable.exe')
-    os.rename('./rustdesk_portable.exe', f'./rustdesk-{version}-install.exe')
+    os.rename('./rustdesk_portable.exe', f'./ayudame-{version}-install.exe')
     print(
-        f'output location: {os.path.abspath(os.curdir)}/rustdesk-{version}-install.exe')
+        f'output location: {os.path.abspath(os.curdir)}/ayudame-{version}-install.exe')
 
 
 def main():
@@ -511,8 +511,8 @@ def main():
         os.chdir('libs/portable')
         system2('pip3 install -r requirements.txt')
         system2(
-            f'python3 ./generate.py -f ../../{res_dir} -o . -e ../../{res_dir}/rustdesk-{version}-win7-install.exe')
-        system2('mv ../../{res_dir}/rustdesk-{version}-win7-install.exe ../..')
+            f'python3 ./generate.py -f ../../{res_dir} -o . -e ../../{res_dir}/ayudame-{version}-win7-install.exe')
+        system2('mv ../../{res_dir}/ayudame-{version}-win7-install.exe ../..')
     elif os.path.isfile('/usr/bin/pacman'):
         # pacman -S -needed base-devel
         system2("sed -i 's/pkgver=.*/pkgver=%s/g' res/PKGBUILD" % version)
@@ -627,8 +627,8 @@ def main():
                 system2('mv tmpdeb/usr/bin/rustdesk tmpdeb/usr/share/rustdesk/')
                 system2('cp libsciter-gtk.so tmpdeb/usr/share/rustdesk/')
                 md5_file_folder("tmpdeb/")
-                system2('dpkg-deb -b tmpdeb rustdesk.deb; /bin/rm -rf tmpdeb/')
-                os.rename('rustdesk.deb', 'rustdesk-%s.deb' % version)
+                system2('dpkg-deb -b tmpdeb ayudame.deb; /bin/rm -rf tmpdeb/')
+                os.rename('ayudame.deb', 'ayudame-%s.deb' % version)
 
 
 def md5_file(fn):
